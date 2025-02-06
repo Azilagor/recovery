@@ -3,47 +3,43 @@ header("Cache-control:no-cache");
 header("Pragma:no-cache");
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="kk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Сброс пароля AUES</title>
+    <title>Парольді жаңарту ENERGO</title>
     <link rel="stylesheet" href="20_09_2024.css">
 </head>
 <body>
 
-
-
-<!-- Language selection buttons -->
+<!-- Тілді таңдау батырмалары -->
 <div class="language-selection">
-    <a href="/">Русский</a>
+    <a href="/">Орысша</a>
     <a href="/recovery_kz.php">Қазақша</a>
 </div>
-
 
 <!-- ФОРМА -->
 <div class="form-container">
     <img src="https://aues.edu.kz/backend/web/img/logo_aues_298.png" alt="AUES Logo" width="30%" style="margin-bottom: 20px;">
-    <h1>Сброс пароля</h1>
-    <p>Введите свои данные для сброса пароля. <br> Пароль можно сбрасывать не чаще одного раза в день.</p>
+    <h1>Парольді жаңарту</h1>
+    <p>Парольді жаңарту үшін мәліметтерді еңгізіңіз. <br> Парольді күніне тек қана бір ауыстыруға болады</p>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-        <label for="user">Введите логин</label>
-        <input type="text" id="user" name="user" placeholder="Пример: i.ivanov" value="<?php echo @$_POST['user']; ?>" required>
+        <label for="user">Логин енгізіңіз</label>
+        <input type="text" id="user" name="user" placeholder="Мысалы: i.ivanov" value="<?php echo @$_POST['user']; ?>" required>
 
-        <label for="mail">Введите почту</label>
-        <input type="email" id="mail" name="mail" placeholder="Пример: i.vanov@aues.kz" value="<?php echo @$_POST['mail']; ?>" required>
+        <label for="mail">Почта енгізіңіз</label>
+        <input type="email" id="mail" name="mail" placeholder="Мысалы: i.vanov@aues.kz" value="<?php echo @$_POST['mail']; ?>" required>
 
-        <label for="phone">Введите телефон</label>
-        <input type="tel" id="phone" name="phone" placeholder="Пример: 87071234567" pattern="\d{11}" value="<?php echo @$_POST['phone']; ?>" required>
-        <span class="text-helper">Oбразец 87071234567</span>
+        <label for="phone">Телефон енгізіңіз</label>
+        <input type="tel" id="phone" name="phone" placeholder="Мысалы: 87071234567" pattern="\d{11}" value="<?php echo @$_POST['phone']; ?>" required>
+        <span class="text-helper">Үлгі: 87071234567</span>
 
-        <input type="submit" value="Сброс" name="rest" class="submit-btn">
+        <input type="submit" value="Қалпына келтіру" name="rest" class="submit-btn">
     </form>
-    <a href="https://its.aues.kz/index.php/2020/04/13/ruk_po_sbrosu_parolya/" target="_blank">>> Руководство по сбросу пароля <<</a>
+    <a href="https://its.aues.kz/index.php/2020/04/13/ruk_po_sbrosu_parolya/" target="_blank"> >> AUES.KZ корпоративтік аккаунт паролін қалпына келтіру жөніндегі нұсқаулық <<</a>
 </div>
 
-
-<!-- ЧТОБЫ СООБЩЕНИЯ ВЫВОДИЛИСЬ В НУЖНОМ КОНТЕЙНЕРЕ ECHO() -->
+<!-- ҚАТЕЛЕРДІ ЕШО() КОНТЕЙНЕРІНЕ ШЫҒАРУ -->
 <div class="output-message">
     <?php
     ini_set("display_errors","on");
@@ -60,7 +56,7 @@ header("Pragma:no-cache");
         $dc="ldap://192.168.10.25";
         $object='ou=aues,dc=aues,dc=kz';
 
-        $conn=ldap_connect($dc,389) or die("Нет подключения к контроллеру");
+        $conn=ldap_connect($dc,389) or die("Контроллерге қосылу мүмкін болмады");
 
         if($conn)
         {
@@ -108,13 +104,13 @@ header("Pragma:no-cache");
                 $zapret=($segod==$change_date);
 
                 if(empty($ldap_user)) {
-                    echo "Введённая информация неверна!";
+                    echo "Енгізілген ақпарат дұрыс емес!";
                     ldap_close($conn);
                     exit;
                 }
 
                 if($zapret) {
-                    echo "<font color=red><b>Нельзя менять пароль больше 1 раза в день!</b></font><br>";
+                    echo "<font color=red><b>Парольді бір күнде бір рет қана өзгертуге болады!</b></font><br>";
                     ldap_close($conn);
                     exit;
                 }
@@ -124,14 +120,14 @@ header("Pragma:no-cache");
                 strtolower($phone)==strtolower($ldap_phone) &&
                 !$zapret)
                 {
-                    echo "Ваш пароль будет сброшен, новый пароль придёт в СМС на телефон $ldap_phone<br>";
+                    echo "Сіздің пароліңіз қалпына келтіріледі, жаңа пароль $ldap_phone нөміріне SMS арқылы жіберіледі<br>";
                     echo file_get_contents("http://192.168.10.32/new-sbros.php?user=$ldap_user&phone=$ldap_phone");
                 }
                 else {
-                    echo "Введённая информация неверна!";
+                    echo "Енгізілген ақпарат дұрыс емес!";
                 }
             } else {
-                echo "Логин провален";
+                echo "Кіру сәтсіз аяқталды";
             }
         }
 
