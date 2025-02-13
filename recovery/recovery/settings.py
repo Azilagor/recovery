@@ -68,6 +68,13 @@ TEMPLATES = [
     },
 ]
 
+# Параметры подключения к Active Directory 
+LDAP_SERVER = "ldaps://192.168.10.25"
+ADMIN_DN = "api@aues.kz"  # Логин сервисного аккаунта
+ADMIN_PASSWORD = "f5e878db0aAв"
+BASE_DN = "OU=aues,DC=aues,DC=kz"  # Базовый DN
+
+
 WSGI_APPLICATION = 'recovery.wsgi.application'
 
 
